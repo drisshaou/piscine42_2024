@@ -6,7 +6,7 @@
 /*   By: drhaouha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:12:18 by drhaouha          #+#    #+#             */
-/*   Updated: 2024/02/14 16:30:27 by drhaouha         ###   ########.fr       */
+/*   Updated: 2024/02/19 13:37:09 by drhaouha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,12 @@ int	ft_atoi(char *str)
 	nb = 0;
 	while (str[i] != '\0' && (str[i] == 32 || (str[i] >= 9 && str[i] < 13)))
 		i++;
-	if (str[i] == '-')
+	while (str[i] != '\0' && (str[i] == '-' || str[i] == '+'))
 	{
-		sign *= -1;
+		if (str[i] == '-')
+			sign *= -1;
 		i++;
 	}
-	else if (str[i] == '+')
-		i++;
 	while (str[i] != '\0' && str[i] >= '0' && str[i] <= '9')
 	{
 		nb = nb * 10 + str[i] - '0';
@@ -42,6 +41,8 @@ int	ft_atoi(char *str)
 {
 	if (ac > 1){
 		printf("ft_atoi result: %d\n", ft_atoi(av[1]));
-		printf("atoi result: %d\n", ft_atoi(av[1]));
+		printf("Caution real atoi do not accept 
+				more than one minus and plus sign\n");
+		printf("atoi result: %d\n", atoi(av[1]));
 	}
 }*/

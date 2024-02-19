@@ -6,22 +6,22 @@
 /*   By: drhaouha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/14 16:44:39 by drhaouha          #+#    #+#             */
-/*   Updated: 2024/02/15 11:39:25 by drhaouha         ###   ########.fr       */
+/*   Updated: 2024/02/19 11:31:44 by drhaouha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include <stdio.h>
 
-void	print_hex_char(int nbr, char *base, int base_len)
+void	print_base_char(long n, char *base, int base_len)
 {
-	if (nbr >= base_len)
+	if (n >= (long)base_len)
 	{
-		print_hex_char(nbr / base_len, base, base_len);
-		print_hex_char(nbr % base_len, base, base_len);
+		print_base_char(n / base_len, base, base_len);
+		print_base_char(n % base_len, base, base_len);
 	}
 	else
-		write(1, &base[nbr], 1);
+		write(1, &base[n], 1);
 }
 
 int	is_base_valid(char *base, int base_len)
@@ -47,23 +47,27 @@ int	is_base_valid(char *base, int base_len)
 
 void	ft_putnbr_base(int nbr, char *base)
 {
-	int	base_len;
+	long	n;
+	int		base_len;
 
 	base_len = 0;
+	n = nbr;
 	while (base[base_len] != '\0')
 		base_len++;
 	if (!is_base_valid(base, base_len))
 		return ;
-	if (nbr < 0)
+	if (n < 0)
 	{
 		write(1, "-", 1);
-		nbr *= -1;
+		n *= -1;
 	}
-	print_hex_char(nbr, base, base_len);
+	print_base_char(n, base, base_len);
 }
 /*int		main(void)
 {
-	write(1, "42:", 3);
+	write(1, "-2147483648:", 12);
+        ft_putnbr_base(-2147483648, "0123456789");
+	write(1, "\n42:", 4);
 	ft_putnbr_base(42, "0123456789");
 	write(1, "\n2a:", 4);
 	ft_putnbr_base(42, "0123456789abcdef");

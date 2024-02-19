@@ -6,11 +6,12 @@
 /*   By: drhaouha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/15 11:03:56 by drhaouha          #+#    #+#             */
-/*   Updated: 2024/02/15 13:05:57 by drhaouha         ###   ########.fr       */
+/*   Updated: 2024/02/19 13:29:50 by drhaouha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include <limits.h>
 
 int	get_char_index(char c, char *base)
 {
@@ -47,6 +48,7 @@ int	get_int_value(char *str, char *base, int base_len)
 	index = -1;
 	while (str[i] != '\0' && (str[i] == 32 || (str[i] >= 9 && str[i] < 13)))
 		i++;
+	i -= 1;
 	while (str[i++] != '\0' && (str[i] == '-' || str[i] == '+'))
 		if (str[i] == '-')
 			sign *= -1;
@@ -97,7 +99,8 @@ int	ft_atoi_base(char *str, char *base)
 }
 /*int	main(void)
 {
-	printf("42:%d\n", ft_atoi_base("2a", "0123456789abcdef"));
+	printf("%d:%d\n", INT_MIN, ft_atoi_base("-2147483648", "0123456789"));
+	printf("10:%d\n", ft_atoi_base("2a", "0123456789abcdef"));
 	printf("-42:%d\n", ft_atoi_base("   --------+-2a", "0123456789abcdef"));
 	printf("42:%d\n", ft_atoi_base("   -+-2a", "0123456789abcdef"));
 	printf("0:%d\n", ft_atoi_base("   --------+- 2a", "0123456789abcdef"));
