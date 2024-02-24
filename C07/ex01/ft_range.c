@@ -13,23 +13,18 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int	ft_abs(int range)
-{
-	if (range < 0)
-		return (-range);
-	return (range);
-}
-
 int	*ft_range(int min, int max)
 {
 	int	*tab;
-	int i;
+	int	i;
 	int	size;
 
-	size = ft_abs(max - min);
+	if (min >= max)
+		return (NULL);
+	size = max - min;
 	tab = (int *)malloc(size * sizeof(int));
 	if (tab == NULL)
-		return (0);
+		return (NULL);
 	i = 0;
 	while (i < size)
 	{

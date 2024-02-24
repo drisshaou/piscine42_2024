@@ -12,107 +12,38 @@
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <limits.h>
+#include <string.h>
 
-int		get_size(int nbr, int base_len)
-{
-	int	size;
+int	get_size(long nbr, int base_len);
+int	get_char_index(char c, char *base_from);
 
-	size = 0;
-	if (size < 0)
-		size++;
-	while(nbr > 0)
-	{
-		nbr /= base_len;
-		size++;
-	}
-	return (size);
-}
-
-// void	print_hex_addr(unsigned long addr)
-// {
-// 	int		i;
-// 	char	temp;
-// 	char	hex[16];
-
-// 	i = 0;
-// 	while (i < 16)
-// 		str[i++] = '0';
-// 	i = 15;
-// 	while (addr > 0)
-// 	{
-// 		temp = (char)(addr % 16);
-// 		if (temp <= 9)
-// 			temp += '0';
-// 		else if (temp <= 15)
-// 			temp = temp - 10 + 'a';
-// 		str[i--] = temp;
-// 		addr /= 16;
-// 	}
-// 	write(1, hex, 16);
-// 	write(1, ": ", 2);
-// }
-
-char	*get_str(long nbr, char *base, int base_len, char *str)
+char	*long_to_base(long nbr, char *base, int base_len)
 {
 	int		i;
-	char	temp;
+	char	*str;
 
-	while (nbr < 0)
-	{
-		str[0] = '-';
-		nbr *= -1;
-	}
-	while (nbr < 16 && base_len == 16)
-		str[1] = '0';
 	i = get_size(nbr, base_len);
-	while (i > 0)
+	str = (char *)malloc(sizeof(char) * (i + 1));
+	if (str == NULL)
+		return (0);
+	if (nbr < 0)
 	{
-		temp = base[nbr % base_len];
-		str[i--] = temp;
-		nbr /= base_len;
+		nbr *= -1;
+		str[0] = '-';
 	}
-	str[get_size(nbr, base_len) - 1] = '\0';
+	str[i--] = '\0';
+	if (nbr == 0)
+		str[0] = base[0];
+	while (nbr > 0)
+	{
+		str[i] = base[nbr % base_len];
+		nbr /= base_len;
+		i--;
+	}
 	return (str);
 }
 
-// void	print_base_char(long nbr, char *base, int base_len, int size)
-// void	print_base_char(long nbr, char *base, int base_len, char *str)
-// {
-
-// 	if (nbr >= base_len)
-// 	{
-// 		print_base_char(nbr / base_len, base, base_len);
-// 		print_base_char(nbr % base_len, base, base_len);
-// 	}
-// 	else
-// 		str[size]
-// 		write(1, &base[nbr], 1);
-// }
-
-int	get_char_index(char c, char *base_from)
-{
-	int	i;
-	int	valid;
-
-	i = 0;
-	valid = 0;
-	while (base_from[i] != '\0')
-	{
-		if (c == base_from[i])
-		{
-			valid |= 1;
-			break ;
-		}
-		i++;
-	}
-	if (valid)
-		return (i);
-	else
-		return (-1);
-}
-
-int	get_int_value(char *nbr, char *base_from, int base_len)
+int	get_int_value(char *nbr, char *base, int base_len)
 {
 	int	sign;
 	int	nb;
@@ -123,15 +54,15 @@ int	get_int_value(char *nbr, char *base_from, int base_len)
 	nb = 0;
 	sign = 1;
 	index = -1;
-	while (nbr[i] != '\0' && (nbr[i] == 32 || (nbr[i] >= 9 && nbr[i] < 13)))
+	while (nbr[i] != '\0' && (nbr[i] == 32 || (nbr[i] >= 9 && nbr[i] <= 13)))
 		i++;
 	i -= 1;
-	while (nbr[i++] != '\0' && (nbr[i] == '-' || nbr[i] == '+'))
+	while (nbr[++i] != '\0' && (nbr[i] == '-' || nbr[i] == '+'))
 		if (nbr[i] == '-')
 			sign *= -1;
 	while (nbr[i] != '\0')
 	{
-		index = get_char_index(nbr[i], base_from);
+		index = get_char_index(nbr[i], base);
 		if (index != -1)
 			nb = nb * base_len + index;
 		else
@@ -165,44 +96,40 @@ int	is_base_valid(char *base, int base_len)
 
 char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 {
-	int	base_len;
-	int	int_val;
-	// int	string_size;
-	char *str;
+	int		from_len;
+	int		to_len;
+	int		value;
+	char	*str;
 
-	base_len = 0;
-	while (base_from[base_len] != '\0')
-		base_len++;
-	if (!is_base_valid(base_from, base_len)
-			|| !is_base_valid(base_to, base_len))
-		return (0);
-	int_val = get_int_value(nbr, base_from, base_len);
-	base_len = 0;
-	while (base_to[base_len] != '\0')
-		base_len++;
-	// string_size = get_size(int_val, base_len);
-	// print_base_char((long)int_val, base_to, base_len, string_size);
-	str = (char *)malloc(sizeof(char) * (get_size(int_val, base_len) + 1));
-	if (str == NULL)
-		return (0);
-	str = get_str(int_val, base_to, base_len, str);
+	from_len = 0;
+	while (base_from[from_len] != '\0')
+		from_len++;
+	to_len = 0;
+	while (base_to[to_len] != '\0')
+		to_len++;
+	if (!is_base_valid(base_from, from_len) || !is_base_valid(base_to, to_len))
+		return (NULL);
+	value = get_int_value(nbr, base_from, from_len);
+	str = long_to_base((long)value, base_to, to_len);
 	return (str);
 }
 /*int	main(void)
 {
-	printf("%d:%d\n", INT_MIN, ft_atoi_base("-2147483648", "0123456789"));
-	printf("10:%d\n", ft_atoi_base("2a", "0123456789abcdef"));
-	printf("-42:%d\n", ft_atoi_base("   --------+-2a", "0123456789abcdef"));
-	printf("42:%d\n", ft_atoi_base("   -+-2a", "0123456789abcdef"));
-	printf("0:%d\n", ft_atoi_base("   --------+- 2a", "0123456789abcdef"));
-	printf("0:%d\n", ft_atoi_base("   --------+-z", "0123456789abcdef"));
-	printf("0:%d\n", ft_atoi_base("   --------+-2a", ""));
-	printf("0:%d\n", ft_atoi_base("   --------+-2a", "0"));
-	printf("0:%d\n", ft_atoi_base("   --------+-2a", "+-0"));
-	printf("0:%d\n", ft_atoi_base("   --------+-2a", "\t01"));
+	printf("42:%s\n", ft_convert_base("--2a", "0123456789abcdef",
+	 "0123456789"));
+
+	printf("-2a:%s\n", ft_convert_base("   -42", "0123456789",
+	 "0123456789abcdef"));
+
+	printf("-1000:%s\n", ft_convert_base("   ---1000", "0123456789",
+	 "0123456789"));
+
+	printf("-2147483648:%s\n", ft_convert_base("-2147483648",
+	 "0123456789", "0123456789"));
+
+	// printf("strlen: %lu\n", strlen(ft_convert_base("-2147483648",
+	 "0123456789", "0123456789")));
+
+	printf("-2147483648:%s\n", ft_convert_base("-80000000",
+	 "0123456789abcdef", "0123456789"));
 }*/
-int	main(void)
-{
-	printf("42:%s\n", ft_convert_base("--2a", "0123456789abcdef", "0123456789"));
-	printf("-2a:%s\n", ft_convert_base("-42", "0123456789", "0123456789abcdef"));
-}

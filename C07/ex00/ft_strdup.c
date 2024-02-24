@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <string.h>
 
-int		ft_strlen(char *str)
+int	ft_strlen(char *str)
 {
 	int	i;
 
@@ -31,9 +31,9 @@ char	*ft_strdup(char *src)
 	int		i;
 
 	len = ft_strlen(src);
-	str = (char *)malloc(len * sizeof(char));
+	str = (char *)malloc((len + 1) * sizeof(char));
 	if (str == NULL)
-		return (0);
+		return (NULL);
 	i = -1;
 	while (++i < len)
 		str[i] = src[i];

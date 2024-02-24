@@ -53,11 +53,13 @@ int	ft_get_size(char *str, char *charset)
 	{
 		while (*str && ft_in_charset(*str, charset))
 			str++;
+		if (*str == '\0')
+			break ;
 		size++;
 		while (*str && !ft_in_charset(*str, charset))
 			str++;
 	}
-	return (size + 1);
+	return (size);
 }
 
 char	**ft_split(char *str, char *charset)
@@ -68,7 +70,7 @@ char	**ft_split(char *str, char *charset)
 	index = 0;
 	while (*str && ft_in_charset(*str, charset))
 		str++;
-	tab = (char **)malloc(sizeof(char *) * ft_get_size(str, charset));
+	tab = (char **)malloc(sizeof(char *) * (ft_get_size(str, charset) + 1));
 	if (tab == NULL)
 		return (0);
 	while (*str)
@@ -82,7 +84,6 @@ char	**ft_split(char *str, char *charset)
 			index++;
 		}
 	}
-	ft_fill_tab(str, tab, index, charset);
 	tab[index] = 0;
 	return (tab);
 }
@@ -100,8 +101,6 @@ char	**ft_split(char *str, char *charset)
 			printf("%s\n", tab[i]);
 			i++;
 		}
-		// printf("size = %d\n", 
-		//ft_get_size("aertyabtryuartyubuii", "ab"));
 	}
 	return (0);
 }*/

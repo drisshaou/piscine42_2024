@@ -37,7 +37,6 @@ int	ft_get_size(char **strs, char *sep, int size)
 			total_len += ft_strlen(sep);
 		i++;
 	}
-	total_len++;
 	return (total_len);
 }
 
@@ -66,15 +65,15 @@ char	*ft_strjoin(int size, char **strs, char *sep)
 	int		total_len;
 
 	total_len = ft_get_size(strs, sep, size);
-	str = (char *)malloc(sizeof(char) * total_len);
+	str = (char *)malloc(sizeof(char) * (total_len + 1));
 	if (str == NULL)
-		return (0);
+		return (NULL);
 	i = 0;
 	while (i < size && strs[i])
 	{
-		ft_strcat(str, strs[i]);
+		str = ft_strcat(str, strs[i]);
 		if (i < size - 1)
-			ft_strcat(str, sep);
+			str = ft_strcat(str, sep);
 		i++;
 	}
 	if (size == 0)

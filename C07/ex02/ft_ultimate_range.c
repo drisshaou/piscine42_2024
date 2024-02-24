@@ -13,21 +13,14 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int	ft_abs(int range)
-{
-	if (range < 0)
-		return (-range);
-	return (range);
-}
-
 int	ft_ultimate_range(int **range, int min, int max)
 {
-	int i;
+	int	i;
 	int	size;
 
 	if (min >= max)
 		return (0);
-	size = ft_abs(max - min);
+	size = max - min;
 	*range = (int *)malloc(size * sizeof(int));
 	if (*range == NULL)
 		return (-1);
@@ -40,17 +33,19 @@ int	ft_ultimate_range(int **range, int min, int max)
 	}
 	return (i);
 }
-int	main(void)
+/*int	main(void)
 {
 	int *range;
 
-	printf("Warn: Any segfault will mean that arrays are not correctly allocated\n");
+	printf("Warn: Any segfault will mean that arrays are
+	 not correctly allocated\n");
 
 	printf("5:%d\n", ft_ultimate_range(&range, 0, 5));
-	printf("0, 1, 2, 3, 4 : %d, %d, %d, %d, %d\n", range[0], range[1], range[2], range[3], range[4]);
+	printf("0, 1, 2, 3, 4 : %d, %d, %d, %d, %d\n",
+	 range[0],range[1], range[2], range[3], range[4]);
 	
 	printf("0:%d\n", ft_ultimate_range(&range, 3, 3));
 	
 	printf("2:%d\n", ft_ultimate_range(&range, -1, 1));
 	printf("-1, 0 : %d, %d", range[0], range[1]);
-}
+}*/
