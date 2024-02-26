@@ -6,7 +6,7 @@
 /*   By: drhaouha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 16:54:22 by drhaouha          #+#    #+#             */
-/*   Updated: 2024/02/21 16:54:25 by drhaouha         ###   ########.fr       */
+/*   Updated: 2024/02/25 09:20:12 by drhaouha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,15 @@ char	*ft_strjoin(int size, char **strs, char *sep)
 	str = (char *)malloc(sizeof(char) * (total_len + 1));
 	if (str == NULL)
 		return (NULL);
+	str[0] = '\0';
 	i = 0;
 	while (i < size && strs[i])
 	{
-		str = ft_strcat(str, strs[i]);
+		ft_strcat(str, strs[i]);
 		if (i < size - 1)
-			str = ft_strcat(str, sep);
+			ft_strcat(str, sep);
 		i++;
 	}
-	if (size == 0)
-		str[0] = '\0';
 	return (str);
 }
 /*int	main(int argc, char **argv)

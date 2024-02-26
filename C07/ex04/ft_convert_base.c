@@ -25,7 +25,7 @@ char	*long_to_base(long nbr, char *base, int base_len)
 	i = get_size(nbr, base_len);
 	str = (char *)malloc(sizeof(char) * (i + 1));
 	if (str == NULL)
-		return (0);
+		return (NULL);
 	if (nbr < 0)
 	{
 		nbr *= -1;
@@ -63,10 +63,9 @@ int	get_int_value(char *nbr, char *base, int base_len)
 	while (nbr[i] != '\0')
 	{
 		index = get_char_index(nbr[i], base);
-		if (index != -1)
-			nb = nb * base_len + index;
-		else
-			return (0);
+		if (index == -1)
+			break ;
+		nb = nb * base_len + index;
 		i++;
 	}
 	return (nb * sign);
@@ -115,21 +114,30 @@ char	*ft_convert_base(char *nbr, char *base_from, char *base_to)
 }
 /*int	main(void)
 {
-	printf("42:%s\n", ft_convert_base("--2a", "0123456789abcdef",
-	 "0123456789"));
+	printf("0:%s\n", ft_convert_base("", "0123456789", "abcde"));
 
-	printf("-2a:%s\n", ft_convert_base("   -42", "0123456789",
-	 "0123456789abcdef"));
-
-	printf("-1000:%s\n", ft_convert_base("   ---1000", "0123456789",
-	 "0123456789"));
-
-	printf("-2147483648:%s\n", ft_convert_base("-2147483648",
-	 "0123456789", "0123456789"));
-
-	// printf("strlen: %lu\n", strlen(ft_convert_base("-2147483648",
-	 "0123456789", "0123456789")));
-
-	printf("-2147483648:%s\n", ft_convert_base("-80000000",
-	 "0123456789abcdef", "0123456789"));
+	// printf("41322:%s\n", 
+	ft_convert_base("10110 ", "0123456789", "0123456"));
+	// printf("nbr vide:%s\n", 
+	ft_convert_base("", "0123456789abcdef", "0123456789"));
+	// printf("base_from vide (null):%s\n", 
+	ft_convert_base("1a", "", "0123456789"));
+	// printf("base_to vide (null):%s\n", 
+	ft_convert_base("1a", "0123456789abcdef", ""));
+	// printf("42:%s\n", 
+	ft_convert_base("--2a", "0123456789abcdef", "0123456789"));
+	// printf("-2a:%s\n", 
+	ft_convert_base("   -42", "0123456789", "0123456789abcdef"));
+	// printf("-1000:%s\n", 
+	ft_convert_base("   ---1000", "0123456789", "0123456789"));
+	// printf("-2147483648:%s\n", 
+	ft_convert_base("-2147483648", "0123456789", "0123456789"));
+	// // printf("strlen: %lu\n", strlen(
+		ft_convert_base("-2147483648", "0123456789", "0123456789")));
+	// printf("-2147483648:%s\n", 
+	ft_convert_base("-80000000", "0123456789abcdef", "0123456789"));
+	// printf("0:%s\n", 
+	ft_convert_base("0", "0123456789", "0123456789abcdef"));
+	// printf("1010:%s\n", 
+	ft_convert_base("10", "0123456789", "01"));
 }*/
