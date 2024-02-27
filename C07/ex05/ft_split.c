@@ -87,7 +87,7 @@ char	**ft_split(char *str, char *charset)
 	tab[index] = 0;
 	return (tab);
 }
-/*int main(int ac, char **av)
+int main(int ac, char **av)
 {
 	char **tab;
 	int	i;
@@ -103,4 +103,4 @@ char	**ft_split(char *str, char *charset)
 		}
 	}
 	return (0);
-}*/
+}
